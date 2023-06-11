@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <nav aria-label="breadcrumb" class="mt-5">
+      <ol class="breadcrumb" style="font-size: 18px; background-color: #f5f5f5;">
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{% url 'index' %}">Главная</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active" >{{ product.title }}</li>
+      </ol>
+    </nav>
+
+<div class="row">
+    <div class="col-lg-6">
+         <img src="{{ product.image.url }}" alt="Product Image" class="product-image">
+    </div>
+    <div class="col-lg-6">
+        <h2 class="product-title">{{product.title}}</h2>
+          <h4 class="product-price">{{product.price}} ₽</h4>
+          <p class="product-description">{{product.description}}</p>
+          <div class="product-features">
+            <h5 class="mt-4">Характеристики</h5>
+            <table class="table">
+              <tbody>
+                {% for f_name, f_value in product.get_features %}
+                  <tr>
+                    <th scope="row">{{ f_name }}</th>
+                    <td>{{ f_value }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+              <a href="{% url 'add_to_cart'  slug=product.slug %}"><button class="btn-danger add-to-cart-btn">Добавить в корзину</button> </a>
+        </div>
+    </div>
+</div>
+
+<div class="recently-viewed">
+    <h4 class="mt-4">Недавно просмотренные</h4>
+    <div class="row mt-4 mb-4">
+        <div class="col-lg-3">
+            <div class="card">
+                <img src="{% static 'img/Bauer_Vapor_Hyperlite.jpg' %}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">Bauer Vapor Hyperlite</h5>
+                    <p class="card-text">26690 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <img src="{% static 'img/CCM_Jetspeed.jpg' %}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">CCM Jetspeed</h5>
+                    <p class="card-text">23999 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <img src="{% static 'img/Bauer_Vapor_Hyperlite.jpg' %}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">Bauer Vapor Hyperlite</h5>
+                    <p class="card-text">26699 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <img src="{% static 'img/Bauer_Vapor_Hyperlite.jpg' %}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">Bauer Vapor Hyperlite</h5>
+                    <p class="card-text">26699 ₽</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

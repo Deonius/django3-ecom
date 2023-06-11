@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row" style="margin-bottom: 50px; margin-top: 50px">
+    <div class="col-md-6 offset-md-3">
+        <h3 class="text-center">Регистрация нового пользователя</h3>
+        <hr>
+        <form class="custom-form" action="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 rounded-form">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+
+                    {{ form.confirm_password.label_tag }}
+                    {{ form.confirm_password }}
+                </div>
+                <div class="col-md-6 rounded-form">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+
+                    {{ form.address.label_tag }}
+                    {{ form.address }}
+
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary btn-block btn-custom mt-3" value="Зарегистрироваться">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

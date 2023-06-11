@@ -1,0 +1,239 @@
+{% load static %}
+{% load search_filter %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title style="text-align: center;">ХОКК</title>
+        <!-- Favicon-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+          <script>
+            $(document).ready(function() {
+              $('[data-toggle="popover"]').popover({
+                trigger: 'hover'
+              });
+            });
+          </script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    </head>
+    <body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+    <a class="navbar-brand ml-5 mr-5" href="{% url 'index' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Логотип" width="60" height="60">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown mr-5 ml-5">
+      <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Каталог
+      </a>
+      <div class="dropdown-menu dropdown-menu-custom" aria-labelledby="navbarDropdown">
+        {% for category in categories %}
+          <a href="{{ category.get_absolute_url }}" class="nav-item">{{ category.name }}</a>
+          {% endfor %}
+      </div>
+    </li>
+    <li class="nav-item mr-5 ml-5">
+      <a class="nav-link text-white" href="{% url 'about' %}">Акции</a>
+    </li>
+    <li class="nav-item mr-5 ml-5">
+      <a class="nav-link text-white" href="{% url 'about' %}">Доставка и оплата</a>
+    </li>
+    <li class="nav-item mr-5 ml-5">
+      <a class="nav-link text-white" href="{% url 'about' %}">Магазины</a>
+    </li>
+    <li class="nav-item ml-5">
+      <a class="nav-link text-white" href="{% url 'about' %}">О нас</a>
+    </li>
+  </ul>
+	  <ul class="navbar-nav ml-auto mr-5">
+        <li class="nav-item">
+         <a class="nav-link text-white" href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> <span class="badge badge-pill badge-danger">{{ cart.products.count }}</span></a>
+        </li>
+          {% if not request.user.is_authenticated %}
+      <li class="nav-item mt-1">
+          <a class="nav-link text-white " href="#"><i class="fas fa-user text-white"></i></a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link text-white " href="{% url 'login' %}"> |Войти</a>
+      </li>
+        {% endif %}
+      <li class="nav-item mt-1">
+          {% if request.user.is_authenticated %}
+          <a class="nav-link text-white " href="{% url 'profile' %}"><i class="fas fa-user text-white"></i></a>
+      </li>
+          <li class="nav-item">
+              <a class="nav-link text-white " href="{% url 'logout' %}" style='color:black  ; text_decoration: none;'> |Выйти</a>
+          </li>
+          {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+<div class="container" style="margin-top: 100px;">
+    {% block content %}
+
+    <div class="row">
+        <div class="col-lg-3">
+  <div class="filters bg-light-gray mt-1">
+    <h4>Фильтры</h4>
+    <div class="filter-item">
+      <h5>Цена:</h5>
+      <input type="range" min="0" max="1000" step="10" value="500" class="price-slider">
+    </div>
+    <div class="filter-item">
+      <h5>Бренд:</h5>
+      <div class="checkbox">
+        <input type="checkbox" name="brand" value="bauer" id="bauer-checkbox">
+        <label for="bauer-checkbox">Bauer</label>
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" name="brand" value="ccm" id="ccm-checkbox">
+        <label for="ccm-checkbox">CCM</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-9">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <a href="{{ product.get_absolute_url }}" class="image-zoom">
+            <img class="card-img-top image-fluid" src="{{ product.image.url }}" alt="..."></a>
+        <div class="card-body">
+          <h4 class="card-title" style="font-size: 20px; color: black;"><a href="{{ product.get_absolute_url }}" style="color: black;">{{ product.title }} </a></h4>
+            <h5 style="font-size: 18px; color: black;">{{ product.price }} ₽</h5>
+          <a href="{% url 'add_to_cart' slug=product.slug %}">
+            <button class="btn btn-danger btn-add-to-cart">Добавить в корзину</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+    </div>
+</div>
+
+
+
+
+
+<div class="custom-carousel-container mb-4 mt-4">
+  <div class="custom-carousel">
+    <div class="custom-carousel-item">
+      <img src="{% static 'img/True.png' %}" alt="Image 1">
+    </div>
+    <div class="custom-carousel-item">
+      <img src="{% static 'img/47brand.png' %}" alt="Image 2">
+    </div>
+    <div class="custom-carousel-item">
+      <img src="{% static 'img/Salming.png' %}" alt="Image 3">
+    </div>
+    <div class="custom-carousel-item">
+      <img src="{% static 'img/Reebok.png' %}" alt="Image 4">
+    </div>
+  </div>
+  <button class="custom-carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+  <button class="custom-carousel-control next"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+
+<img class="img-fluid mt-4" src="{% static 'img/maps.png' %} " alt="Картинка">
+
+
+<footer class="py-3" style="background-color: #E00027; color: white;">
+<div class="container py-4" style="background-color: #E00027; color: white;">
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <h5>Компания</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" style="color: white">О компании</a></li>
+          <li><a href="#" style="color: white">Новости</a></li>
+          <li><a href="#" style="color: white">Магазины</a></li>
+          <li><a href="#" style="color: white">Политика</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <h5>Информация</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" style="color: white">Условия оплаты</a></li>
+          <li><a href="#" style="color: white">Условия доставки</a></li>
+          <li><a href="#" style="color: white">Гарантия и возврат</a></li>
+          <li><a href="#" style="color: white">Публичная оферта</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-md-2">
+        <h5>Помощь</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" style="color: white">Вопрос-ответ</a></li>
+          <li><a href="#" style="color: white">Бренды</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <h5>Подписка на рассылку</h5>
+        <form>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Введите email">
+            <div class="input-group-append">
+              <button type="submit" class="btn "><svg class="arrow-right-4" viewBox="0 0 100 85">
+  <polygon points="58.263,0.056 100,41.85 58.263,83.641 30.662,83.641 62.438,51.866 0,51.866 0,31.611 62.213,31.611 30.605,0 58.263,0.056" />
+</svg></button>
+            </div>
+          </div>
+        </form>
+        <div class="social-icons mt-lg-3 text-center list-inline">
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#"><span class="fa fa-facebook"></span></a></li>
+            <li class="list-inline-item"><a href="#"><span class="fa fa-twitter"></span></a></li>
+            <li class="list-inline-item"><a href="#"><span class="fa fa-rss"></span></a></li>
+          </ul>
+        </div>
+
+
+      </div>
+      <div class="col-sm-6 col-md-1">
+        <h5>Контакты</h5>
+        <ul class="list-unstyled">
+          <li><i class="fas fa-phone-alt" style="color: white"></i> +79998887766</li>
+          <li><i class="fas fa-map-marker-alt" style="color: white"></i> Адрес компании</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="bg-white">
+  <div class="container text-left">
+    <p class="m-0">&copy; 2023 - ХОКК
+	</p>
+	  </div>
+</footer>
+<!-- CDN подключение иконок fontawesome -->
+<script src="https://use.fontawesome.com/df966d76e1.js"></script>
+
+</body>
+</html>

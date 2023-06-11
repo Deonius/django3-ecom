@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<div class = "container-fluid">
+
+<h2> Адреса наших магазинов </h2>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Omsk')" id="defaultOpen">Омск</button>
+  <button class="tablinks" onclick="openCity(event, 'Nsk')">Новосибирск</button>
+  <button class="tablinks" onclick="openCity(event, 'Krs')">Красноярск</button>
+</div>
+
+<div id="Omsk" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h4 style="margin-bottom: 10px;">ул. Жукова, 101, 1 этаж,<br>ежедневно: с 10:00 до 20:00</h4>
+  <center>
+		<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ad339d17736665d378a8630066400f2a5ce27633ef116799b1054de934868fef8&amp;width=650&amp;height=550&amp;lang=ru_RU&amp;scroll=true"></script>
+	</center>
+</div>
+
+<div id="Nsk" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h4 style="margin-bottom: 10px;">ТЦ «Олимпия», ул. Галущака, 2А, 1 этаж, магазин №102,<br>ежедневно: с 10:00 до 20:00</h4>
+  <center>
+<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A8ec210333c0806dca354c1a1762a389c75a58507f6e94b9e2ba2b394d011905c&amp;width=650&amp;height=550&amp;lang=ru_RU&amp;scroll=true"></script>
+  </center>
+</div>
+<div id="Krs" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h4 style="margin-bottom: 10px;">ТОЦ Взлетка Сити, ул. Партизана Железняка, 40А,<br>ежедневно: с 10:00 до 20:00</h4>
+	<center>
+<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A42faf88058fd4e80c53806fcdccb482ab5fa1ef2292e1bb52d481900c455008b&amp;width=650&amp;height=550&amp;lang=ru_RU&amp;scroll=true"></script>
+    </center>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+<br>
+</div>
+{% endblock content %}
